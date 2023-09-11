@@ -8,7 +8,7 @@ import { FaBeer } from "react-icons/fa";
 import { FiMenu } from "react-icons/fi";
 import { AiOutlineClose } from "react-icons/ai";
 
-import redirect from "../functions/redirect";
+import { logOut } from "../functions";
 
 import { URL } from "../constants";
 
@@ -61,6 +61,7 @@ export default function Nav() {
             <Button
               text="Logout"
               style="rounded md:rounded-full bg-rose-400 hover:bg-rose-500"
+              func={() => logOut()}
             />
           </div>
         </ul>
