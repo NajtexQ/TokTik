@@ -37,4 +37,7 @@ export const authConfig = {
       return user;
     },
   },
+  pages: {
+    signIn: "/signin",
+  },
 };
