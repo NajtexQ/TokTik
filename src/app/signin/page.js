@@ -14,7 +14,7 @@ export default async function SignIn() {
         <h1 className="absolute font-[Poppins] top-24 text-4xl font-bold">
           TokTik
         </h1>
-        <div className="w-1/2 h-1/2 max-w-[720px] rounded-lg drop-shadow-lg bg-white flex flex-col items-center justify-center gap-10">
+        <div className="w-full h-1/2 max-w-[720px] rounded-lg drop-shadow-lg bg-white flex flex-col items-center justify-center gap-10">
           <Image
             src={logo}
             alt="TokTik Logo"
