@@ -1,5 +1,4 @@
 import { NextAuthOptions, User, getServerSession } from "next-auth";
-import { useSession } from "next-auth/react";
 
 import { PrismaAdapter } from "@auth/prisma-adapter";
 
@@ -20,7 +19,12 @@ export const authConfig = {
     //   clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
     // }),
   ],
-  callbacks: {},
+  callbacks: {
+    async session({ session, user }) {
+      session.user.username = user.username;
+      return session;
+    },
+  },
   events: {
     async createUser({ user }) {
       user.username = `${user.name.split(" ").join("").toLowerCase()}${
@@ -35,6 +39,9 @@ export const authConfig = {
       console.log("createUser", user);
 
       return user;
+    },
+    async signIn({ user }) {
+      console.log(user.username);
     },
   },
   pages: {
