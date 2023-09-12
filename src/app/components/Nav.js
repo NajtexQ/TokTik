@@ -55,6 +55,7 @@ export default function Nav() {
             <Button
               text="Create video"
               style="rounded md:rounded-full bg-indigo-500"
+              func={() => location.replace(URL + "/create-video")}
             />
             <Button
               text="Logout"
