@@ -67,6 +67,7 @@ model User {
 model Video {
   id        String   @id @default(uuid())
   title     String
+  desc      String?
   url       String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

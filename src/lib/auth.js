@@ -21,6 +21,7 @@ export const authConfig = {
   ],
   callbacks: {
     async session({ session, user }) {
+      session.user.id = user.id;
       session.user.username = user.username;
       return session;
     },
