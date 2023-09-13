@@ -13,7 +13,7 @@ export default async function Home() {
         <Video
           title="First video"
           description="This is the first video on my tiktok channel. Hello everyone"
-          src="http://localhost:3000/videos/toktik.mp4"
+          src="http://localhost:3000/uploads/videos/toktik.mp4"
           authorImg={session.user.image}
           authorName="Najt"
           authorUsername="najt"

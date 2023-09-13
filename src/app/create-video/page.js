@@ -42,7 +42,7 @@ export default function CreateVideo() {
     formData.append("title", title);
     formData.append("desc", desc);
 
-    const res = await fetch("/api/createVideo", {
+    const res = await fetch("/api/video/create", {
       method: "POST",
       body: formData,
     });
