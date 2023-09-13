@@ -1,10 +1,39 @@
+"use client";
+
 import Image from "next/image";
 
 import { HiShare } from "react-icons/hi";
-import { AiFillHeart } from "react-icons/ai";
+import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { BiSend } from "react-icons/bi";
 
+import { useState, useEffect } from "react";
+
 export default function Video(props) {
+  const [liked, setLiked] = useState(false);
+
+  useEffect(() => {
+    setLiked(props.likedByUser);
+  }, []);
+
+  const likeVideo = async () => {
+    if (liked) {
+      const res = await fetch(`/api/like/remove/${props.videoId}`, {
+        method: "DELETE",
+      });
+      if (res.status == 200) {
+        setLiked(false);
+      }
+      setLiked(false);
+      return;
+    } else {
+      const res = await fetch(`/api/like/add/${props.videoId}`, {
+        method: "POST",
+      });
+      if (res.status == 200) {
+        setLiked(true);
+      }
+    }
+  };
   return (
     <div className="flex">
       <div className="">
@@ -24,7 +53,20 @@ export default function Video(props) {
           {/* Likes and comment section */}
           <div className="w-full p-4 flex items-center justify-between">
             <div className="flex items-center">
-              <AiFillHeart className="cursor-pointer" size={25} />
+              {liked ? (
+                <AiFillHeart
+                  className="cursor-pointer"
+                  size={25}
+                  color="#ff0000"
+                  onClick={likeVideo}
+                />
+              ) : (
+                <AiOutlineHeart
+                  className="cursor-pointer"
+                  size={25}
+                  onClick={likeVideo}
+                />
+              )}
               <span className="ml-2 text-sm">{props.likes}</span>
             </div>
             <div className="flex items-center gap-1">
