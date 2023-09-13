@@ -13,6 +13,9 @@ export default function CreateVideo() {
   const [file, setFile] = useState(null);
   const [fileName, setFileName] = useState("Video not selected");
 
+  const [title, setTitle] = useState("");
+  const [desc, setDesc] = useState("");
+
   const addTag = () => {
     setTags([...tags, currentTag]);
     setCurrentTag("");
@@ -32,21 +35,42 @@ export default function CreateVideo() {
     }
   };
 
+  const createVideo = async () => {
+    const formData = new FormData();
+
+    formData.append("video", file);
+    formData.append("title", title);
+    formData.append("desc", desc);
+
+    const res = await fetch("/api/createVideo", {
+      method: "POST",
+      body: formData,
+    });
+
+    const data = await res.json();
+
+    console.log(data);
+  };
+
   return (
     <div>
       <Nav />
       <div className="w-screen h-screen flex items-center justify-center bg-gray-100">
-        <div className="w-full max-w-[720px] h-1/2 p-10 rounded-lg drop-shadow-lg bg-gray-50 flex flex-col items-center gap-10">
+        <div className="w-full max-w-[720px] min-h-1/2 p-10 rounded-lg drop-shadow-lg bg-gray-50 flex flex-col items-center gap-10">
           <h1 className="font-semibold text-lg">Create Video</h1>
           <div className="w-full h-full flex flex-col gap-4 items-center">
             <input
               type="text"
               placeholder="Title"
               className="w-full h-10 rounded-md border-2 border-gray-300 px-3"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
             />
             <input
               placeholder="Description"
               className="w-full h-10 rounded-md border-2 border-gray-300 px-3"
+              value={desc}
+              onChange={(e) => setDesc(e.target.value)}
             ></input>
             <div className="flex flex-col items-center gap-2 my-2">
               <p>{fileName}</p>
@@ -89,7 +113,10 @@ export default function CreateVideo() {
                 </div>
               ))}
             </div>
-            <button className="w-64 h-10 rounded-full mt-auto bg-rose-400 text-white font-semibold">
+            <button
+              className="w-64 h-10 rounded-full mt-auto bg-rose-400 text-white font-semibold"
+              onClick={createVideo}
+            >
               Create
             </button>
           </div>

@@ -6,6 +6,8 @@ export async function videoUpload(videoFile, folderName, fileName) {
     return false;
   }
 
+  console.log(videoFile);
+
   const filePath = path.join(process.cwd(), "public", folderName, fileName);
 
   const fileArrayBuffer = await videoFile.arrayBuffer();
@@ -15,7 +17,7 @@ export async function videoUpload(videoFile, folderName, fileName) {
     return {
       file: fileName,
       url: `/${folderName}/${fileName}`,
-      size: file.size,
+      size: videoFile.size,
     };
   } catch (e) {
     console.log(e);

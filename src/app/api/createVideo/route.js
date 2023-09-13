@@ -14,11 +14,17 @@ export async function POST(req) {
     return new Response(JSON.stringify({ error: "Not authenticated" }));
   }
   try {
-    const json = await req.json();
-
     const formData = await req.formData();
 
+    console.log(formData);
+
     const file = formData.get("video");
+    const title = formData.get("title");
+    const desc = formData.get("desc");
+
+    if (!file) {
+      return new Response(JSON.stringify({ error: "No video" }));
+    }
 
     if (!file.name.endsWith(".mp4")) {
       return new Response(JSON.stringify({ error: "Not a video" }));
@@ -32,13 +38,11 @@ export async function POST(req) {
       return new Response(JSON.stringify({ error: "Error uploading video" }));
     }
 
-    console.log(videoUploadResponse);
-
     const data = {
       data: {
-        title: json.title,
-        desc: json.desc,
-        url: process.ENV.NEXTAUTH_URL + videoUploadResponse.url,
+        title,
+        desc,
+        url: videoUploadResponse.url,
         userId: session.user.id,
       },
     };
