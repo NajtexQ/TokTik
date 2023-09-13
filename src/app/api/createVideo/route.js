@@ -3,23 +3,42 @@ import prisma from "../../../../prisma/client";
 import { getServerSession } from "next-auth";
 import { authConfig } from "@/lib/auth";
 
+import { v4 as uuidv4 } from "uuid";
+
+import { videoUpload } from "@/app/serverFunctions/videoUpload";
+
 export async function POST(req) {
+  const session = await getServerSession(authConfig);
+
+  if (!session) {
+    return new Response(JSON.stringify({ error: "Not authenticated" }));
+  }
   try {
     const json = await req.json();
 
-    const session = await getServerSession(authConfig);
+    const formData = await req.formData();
 
-    console.log(session);
+    const file = formData.get("video");
 
-    if (!session) {
-      return new Response(JSON.stringify({ error: "Not authenticated" }));
+    if (!file.name.endsWith(".mp4")) {
+      return new Response(JSON.stringify({ error: "Not a video" }));
     }
+
+    const fileName = `${uuidv4()}.mp4`;
+
+    const videoUploadResponse = await videoUpload(file, "videos", fileName);
+
+    if (!videoUploadResponse) {
+      return new Response(JSON.stringify({ error: "Error uploading video" }));
+    }
+
+    console.log(videoUploadResponse);
 
     const data = {
       data: {
         title: json.title,
-        desc: "test",
-        url: json.url,
+        desc: json.desc,
+        url: process.ENV.NEXTAUTH_URL + videoUploadResponse.url,
         userId: session.user.id,
       },
     };
