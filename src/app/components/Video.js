@@ -17,20 +17,21 @@ export default function Video(props) {
 
   const likeVideo = async () => {
     if (liked) {
+      setLiked(false);
       const res = await fetch(`/api/like/remove/${props.videoId}`, {
         method: "DELETE",
       });
-      if (res.status == 200) {
-        setLiked(false);
+      if (res.status != 200) {
+        setLiked(true);
       }
-      setLiked(false);
       return;
     } else {
+      setLiked(true);
       const res = await fetch(`/api/like/add/${props.videoId}`, {
         method: "POST",
       });
-      if (res.status == 200) {
-        setLiked(true);
+      if (res.status != 200) {
+        setLiked(false);
       }
     }
   };
