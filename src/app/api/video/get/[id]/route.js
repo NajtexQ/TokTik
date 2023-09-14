@@ -1,10 +1,10 @@
-import prisma from "../../../../../../prisma/client";
+import prisma from "@/lib/prisma";
 
 import { getServerSession } from "next-auth";
+import { authConfig } from "@/lib/auth";
 
 export async function GET(req, { params }) {
   const session = await getServerSession(authConfig);
-
   if (!session) {
     return new Response(JSON.stringify({ error: "Not authenticated" }));
   }
