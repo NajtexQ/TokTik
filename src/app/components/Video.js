@@ -6,6 +6,8 @@ import { HiShare } from "react-icons/hi";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { BiSend } from "react-icons/bi";
 
+import { URL } from "../constants";
+
 import { useState, useEffect } from "react";
 
 export default function Video(props) {
@@ -38,10 +40,12 @@ export default function Video(props) {
   return (
     <div className="flex">
       <div className="">
-        <video className="w-96 rounded-lg" controls>
-          <source src={props.src} type="video/mp4" />
-          Your browser does not support HTML video.
-        </video>
+        {props.src != undefined ? (
+          <video className="w-96 rounded-lg" controls>
+            <source src={URL + props.src} type="video/mp4" />
+            Your browser does not support HTML video.
+          </video>
+        ) : null}
       </div>
       <div className="bg-white w-96 rounded-lg">
         <div className="flex flex-col items-center w-full h-full">
@@ -96,6 +100,7 @@ export default function Video(props) {
               <Image
                 className="rounded-full cursor-pointer"
                 src={props.authorImg}
+                alt="profile"
                 width={50}
                 height={50}
               />

@@ -32,7 +32,11 @@ export async function POST(req) {
 
     const fileName = `${uuidv4()}.mp4`;
 
-    const videoUploadResponse = await videoUpload(file, "videos", fileName);
+    const videoUploadResponse = await videoUpload(
+      file,
+      "uploads/videos",
+      fileName
+    );
 
     if (!videoUploadResponse) {
       return new Response(JSON.stringify({ error: "Error uploading video" }));

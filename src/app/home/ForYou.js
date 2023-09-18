@@ -4,8 +4,6 @@ import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
 
 import axios from "axios";
 
-import { URL } from "../constants";
-
 import Video from "../components/Video";
 
 import { useState, useEffect } from "react";
@@ -62,7 +60,7 @@ export default function ForYou({ user }) {
             videoId={video?.id}
             title={video?.title}
             description={video?.desc}
-            src={URL + "/uploads" + video?.url}
+            src={video?.url}
             authorImg={author?.image}
             authorName={author?.name}
             authorUsername={author?.username}
