@@ -19,7 +19,7 @@ export default async function getCurrentUser() {
       },
     });
 
-    return new Response(JSON.stringify(user));
+    return user;
   } catch (e) {
     console.log(e);
     return null;
