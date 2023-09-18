@@ -4,6 +4,8 @@ import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
 
 import axios from "axios";
 
+import { URL } from "../constants";
+
 import Video from "../components/Video";
 
 import { useState, useEffect } from "react";
@@ -13,19 +15,31 @@ export default function ForYou({ user }) {
   const [currentVideo, setCurrentVideo] = useState(1);
 
   const [video, setVideo] = useState({});
+  const [author, setAuthor] = useState({});
 
   const getVideoCount = async () => {
-    const res = await axios.get("/api/video/count");
-    setVideosCount(res.data);
+    try {
+      const res = await axios.get("/api/video/count");
+      setVideosCount(res.data);
+      console.log("videosCount", res.data);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const getVideo = async () => {
     const params = new URLSearchParams([["value", currentVideo]]);
-    const res = await axios.get("/api/video/get", { params });
 
-    setVideo(res.data);
+    try {
+      const res = await axios.get("/api/video/get", { params });
 
-    console.log(res.data);
+      if (res.status == 200) {
+        setVideo(res.data);
+        setAuthor(res.data.author);
+      }
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   useEffect(() => {
@@ -38,26 +52,32 @@ export default function ForYou({ user }) {
 
   return (
     <div className="w-screen h-screen flex items-center justify-center bg-gray-100 gap-12">
-      <AiOutlineArrowLeft
-        size={45}
-        className="bg-gray-200 p-2 rounded-full cursor-pointer"
-      />
-      <Video
-        videoId={video.id}
-        title={video.title}
-        description={video.desc}
-        src={video.url}
-        authorImg={video.author.image}
-        authorName={video.author.name}
-        authorUsername={video.author.username}
-        likedByUser={true}
-        likes={100}
-        comments={[]}
-      />
-      <AiOutlineArrowRight
-        size={45}
-        className="bg-gray-200 p-2 rounded-full cursor-pointer"
-      />
+      {videosCount > 0 ? (
+        <>
+          <AiOutlineArrowLeft
+            size={45}
+            className="bg-gray-200 p-2 rounded-full cursor-pointer"
+          />
+          <Video
+            videoId={video?.id}
+            title={video?.title}
+            description={video?.desc}
+            src={URL + "/uploads" + video?.url}
+            authorImg={author?.image}
+            authorName={author?.name}
+            authorUsername={author?.username}
+            likedByUser={true}
+            likes={100}
+            comments={[]}
+          />
+          <AiOutlineArrowRight
+            size={45}
+            className="bg-gray-200 p-2 rounded-full cursor-pointer"
+          />
+        </>
+      ) : (
+        <p>No videos yet.</p>
+      )}
     </div>
   );
 }

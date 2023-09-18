@@ -27,6 +27,10 @@ export async function GET(req) {
     },
   });
 
+  if (!videos.length) {
+    return new Response(JSON.stringify({ error: "No videos found" }));
+  }
+
   const author = await prisma.user.findUnique({
     where: {
       id: videos[0].userId,
