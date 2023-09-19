@@ -8,13 +8,32 @@ import { BiSend } from "react-icons/bi";
 
 import { URL } from "../constants";
 
+import Comments from "./Comments";
+
 import { useState, useEffect } from "react";
+import axios from "axios";
 
 export default function Video(props) {
   const [liked, setLiked] = useState(false);
+  const [comments, setComments] = useState([]);
+
+  const fetchComments = async () => {
+    try {
+      const res = await axios.get(`/api/comments/?videoId=${props.videoId}`);
+      console.log(res.data);
+      return res.data;
+    } catch (err) {
+      return [];
+    }
+  };
 
   useEffect(() => {
     setLiked(props.likedByUser);
+
+    const com = fetchComments();
+    com.then((data) => {
+      setComments(data);
+    });
   }, []);
 
   const likeVideo = async () => {
@@ -87,10 +106,12 @@ export default function Video(props) {
           {/* Comments section */}
           <div className="w-full p-4">
             <h1 className="font-semibold">
-              Comments &#x2022; {props.comments.length}
+              Comments &#x2022; {comments.length}
             </h1>
-            {props.comments.length == 0 && (
+            {comments.length == 0 ? (
               <p className="text-sm mt-4">No comments yet</p>
+            ) : (
+              <Comments comments={comments} />
             )}
           </div>
 

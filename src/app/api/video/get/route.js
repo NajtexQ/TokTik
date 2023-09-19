@@ -4,10 +4,10 @@ import { authConfig } from "@/lib/auth";
 import prisma from "@/lib/prisma";
 
 export async function GET(req) {
-  // const session = await getServerSession(authConfig);
-  // if (!session) {
-  //   return new Response(JSON.stringify({ error: "Not authenticated" }));
-  // }
+  const session = await getServerSession(authConfig);
+  if (!session) {
+    return new Response(JSON.stringify({ error: "Not authenticated" }));
+  }
 
   console.log(req.nextUrl.searchParams);
 
@@ -37,5 +37,28 @@ export async function GET(req) {
     },
   });
 
-  return new Response(JSON.stringify({ ...videos[0], author }));
+  const likes = await prisma.like.count({
+    where: {
+      videoId: videos[0].id,
+    },
+  });
+
+  try {
+    const likedByUser = await prisma.like.findFirst({
+      where: {
+        videoId: videos[0].id,
+        userId: session.user.id,
+      },
+    });
+  } catch (e) {
+    console.log(e);
+  }
+
+  return new Response(
+    JSON.stringify({
+      ...videos[0],
+      likes,
+      author,
+    })
+  );
 }
