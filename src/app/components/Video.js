@@ -17,6 +17,8 @@ export default function Video(props) {
   const [liked, setLiked] = useState(false);
   const [comments, setComments] = useState([]);
 
+  const [comment, setComment] = useState("");
+
   const fetchComments = async () => {
     try {
       const res = await axios.get(`/api/comments/?videoId=${props.videoId}`);
@@ -35,6 +37,19 @@ export default function Video(props) {
       setComments(data);
     });
   }, []);
+
+  const addComment = async (comment) => {
+    const res = await fetch(`/api/comments/create`, {
+      method: "POST",
+      body: JSON.stringify({ comment, videoId: props.videoId }),
+    });
+    if (res.status == 200) {
+      const com = fetchComments();
+      com.then((data) => {
+        setComments(data);
+      });
+    }
+  };
 
   const likeVideo = async () => {
     if (liked) {
@@ -98,8 +113,17 @@ export default function Video(props) {
                 className="rounded-full py-1 px-4 w-60 bg-gray-100 focus:outline-none"
                 type="text"
                 placeholder="Add a comment"
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
               />
-              <BiSend className="cursor-pointer" size={22} />
+              <BiSend
+                className="cursor-pointer"
+                size={22}
+                onClick={() => {
+                  addComment(comment);
+                  setComment("");
+                }}
+              />
             </div>
           </div>
 
