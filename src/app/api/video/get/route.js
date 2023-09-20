@@ -43,21 +43,18 @@ export async function GET(req) {
     },
   });
 
-  try {
-    const likedByUser = await prisma.like.findFirst({
-      where: {
-        videoId: videos[0].id,
-        userId: session.user.id,
-      },
-    });
-  } catch (e) {
-    console.log(e);
-  }
+  const likedByUser = await prisma.like.findFirst({
+    where: {
+      videoId: videos[0].id,
+      userId: session.user.id,
+    },
+  });
 
   return new Response(
     JSON.stringify({
       ...videos[0],
       likes,
+      likedByUser: likedByUser != null ? true : false,
       author,
     })
   );

@@ -25,6 +25,16 @@ export default function ForYou({ user }) {
     }
   };
 
+  const nextVideo = (num) => {
+    if (currentVideo + num > videosCount) {
+      setCurrentVideo(1);
+    } else if (currentVideo + num < 1) {
+      setCurrentVideo(videosCount);
+    } else {
+      setCurrentVideo(currentVideo + num);
+    }
+  };
+
   const getVideo = async () => {
     const params = new URLSearchParams([["value", currentVideo]]);
 
@@ -54,7 +64,14 @@ export default function ForYou({ user }) {
         <>
           <AiOutlineArrowLeft
             size={45}
-            className="bg-gray-200 p-2 rounded-full cursor-pointer"
+            className={`bg-gray-200 p-2 rounded-full cursor-pointer ${
+              currentVideo == 1 ? "text-gray-300 bg-gray-100" : ""
+            }`}
+            onClick={() => {
+              if (currentVideo > 1) {
+                nextVideo(-1);
+              }
+            }}
           />
           <Video
             videoId={video?.id}
@@ -64,13 +81,20 @@ export default function ForYou({ user }) {
             authorImg={author?.image}
             authorName={author?.name}
             authorUsername={author?.username}
-            likedByUser={true}
-            likes={100}
+            likedByUser={video?.likedByUser}
+            likes={video?.likes}
             comments={[]}
           />
           <AiOutlineArrowRight
             size={45}
-            className="bg-gray-200 p-2 rounded-full cursor-pointer"
+            className={`bg-gray-200 p-2 rounded-full cursor-pointer ${
+              videosCount == currentVideo ? "text-gray-300 bg-gray-100" : ""
+            }`}
+            onClick={() => {
+              if (currentVideo < videosCount) {
+                nextVideo(1);
+              }
+            }}
           />
         </>
       ) : (

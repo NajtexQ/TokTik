@@ -20,8 +20,11 @@ export default function Video(props) {
   const [comment, setComment] = useState("");
 
   const fetchComments = async () => {
+    console.log("Fetching comments");
     try {
-      const res = await axios.get(`/api/comments/?videoId=${props.videoId}`);
+      const params = new URLSearchParams([["videoId", props.videoId]]);
+
+      const res = await axios.get("/api/comments", { params });
       console.log(res.data);
       return res.data;
     } catch (err) {
@@ -30,13 +33,15 @@ export default function Video(props) {
   };
 
   useEffect(() => {
+    console.log("New video");
     setLiked(props.likedByUser);
+    console.log(props.likedByUser);
 
     const com = fetchComments();
     com.then((data) => {
       setComments(data);
     });
-  }, []);
+  }, [props]);
 
   const addComment = async (comment) => {
     const res = await fetch(`/api/comments/create`, {

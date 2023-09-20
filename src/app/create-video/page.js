@@ -47,9 +47,13 @@ export default function CreateVideo() {
       body: formData,
     });
 
+    if (res.status != 200) {
+      return;
+    }
+
     const data = await res.json();
 
-    console.log(data);
+    window.location.href = "/home";
   };
 
   return (
