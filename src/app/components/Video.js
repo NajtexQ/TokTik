@@ -16,6 +16,7 @@ import axios from "axios";
 export default function Video(props) {
   const [liked, setLiked] = useState(false);
   const [comments, setComments] = useState([]);
+  const [likes, setLikes] = useState(props.likes);
 
   const [comment, setComment] = useState("");
 
@@ -32,9 +33,14 @@ export default function Video(props) {
     }
   };
 
+  const getUrl = () => {
+    navigator.clipboard.writeText(URL + "video/" + props.videoId);
+  };
+
   useEffect(() => {
     console.log("New video");
     setLiked(props.likedByUser);
+    setLikes(props.likes);
     console.log(props.likedByUser);
 
     const com = fetchComments();
@@ -59,20 +65,24 @@ export default function Video(props) {
   const likeVideo = async () => {
     if (liked) {
       setLiked(false);
+      setLikes(likes - 1);
       const res = await fetch(`/api/like/remove/${props.videoId}`, {
         method: "DELETE",
       });
       if (res.status != 200) {
         setLiked(true);
+        setLikes(likes + 1);
       }
       return;
     } else {
       setLiked(true);
+      setLikes(likes + 1);
       const res = await fetch(`/api/like/add/${props.videoId}`, {
         method: "POST",
       });
       if (res.status != 200) {
         setLiked(false);
+        setLikes(likes - 1);
       }
     }
   };
@@ -111,7 +121,7 @@ export default function Video(props) {
                   onClick={likeVideo}
                 />
               )}
-              <span className="ml-2 text-sm">{props.likes}</span>
+              <span className="ml-2 text-sm">{likes}</span>
             </div>
             <div className="flex items-center gap-1">
               <input
@@ -153,16 +163,24 @@ export default function Video(props) {
                 alt="profile"
                 width={50}
                 height={50}
+                onClick={() => {
+                  window.location.href = "/profile/" + props.authorUsername;
+                }}
               />
               <div className="ml-4 flex flex-col">
-                <h1 className="font-bold p-0 m-0 cursor-pointer">
+                <h1
+                  className="font-bold p-0 m-0 cursor-pointer"
+                  onClick={() => {
+                    window.location.href = "/profile/" + props.authorUsername;
+                  }}
+                >
                   {props.authorName}
                 </h1>
                 <h2 className="p-0 m-0">@{props.authorUsername}</h2>
               </div>
             </div>
             <div className="cursor-pointer">
-              <HiShare size={25} />
+              <HiShare size={25} onClick={getUrl} />
             </div>
           </div>
         </div>

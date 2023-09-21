@@ -24,9 +24,24 @@ export async function GET(req, { params }) {
     },
   });
 
+  const likesCount = await prisma.like.count({
+    where: {
+      videoId: id,
+    },
+  });
+
+  const likedByUser = await prisma.like.findFirst({
+    where: {
+      videoId: id,
+      userId: session.user.id,
+    },
+  });
+
   return new Response(
     JSON.stringify({
       ...video,
+      likedByUser: likedByUser ? true : false,
+      likes: likesCount,
       author: {
         name: author.name,
         username: author.username,
