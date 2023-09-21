@@ -56,12 +56,14 @@ model User {
   sessions      Session[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  isAdmin Boolean @default(false)
   videos    Video[]
   likes     Like[]
   comments  Comment[]
   followers Follows[] @relation("following")
   following Follows[] @relation("follower")
   comment_likes Comment_Like[]
+  reports   Report[]
 }
 
 model Video {
@@ -75,6 +77,7 @@ model Video {
   userId    String
   likes     Like[]
   comments  Comment[]
+  reports   Report[]
 }
 
 model Like {
@@ -97,6 +100,7 @@ model Comment {
   video     Video    @relation(fields: [videoId], references: [id])
   videoId   String
   likes     Comment_Like[]
+  reports   Report[]
 }
 
 model Follows {
@@ -115,4 +119,16 @@ model Comment_Like {
   userId    String
   comment   Comment  @relation(fields: [commentId], references: [id])
   commentId String
+}
+
+model Report {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  video     Video    @relation(fields: [videoId], references: [id])
+  videoId   String
+  comment   Comment?  @relation(fields: [commentId], references: [id])
+  commentId String?
 }
