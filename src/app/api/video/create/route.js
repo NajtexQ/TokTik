@@ -16,18 +16,20 @@ export async function POST(req) {
   try {
     const formData = await req.formData();
 
-    console.log(formData);
+    if (!formData) {
+      return new Response(JSON.stringify({ error: "No form data" }));
+    }
 
     const file = formData.get("video");
     const title = formData.get("title");
     const desc = formData.get("desc");
 
     if (!file) {
-      return new Response(JSON.stringify({ error: "No video" }));
+      return new Response(JSON.stringify({ error: "No file" }));
     }
 
     if (!file.name.endsWith(".mp4")) {
-      return new Response(JSON.stringify({ error: "Not a video" }));
+      return new Response(JSON.stringify({ error: "Invalid file type" }));
     }
 
     const fileName = `${uuidv4()}.mp4`;

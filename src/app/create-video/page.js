@@ -9,6 +9,8 @@ import { AiOutlineClose } from "react-icons/ai";
 export default function CreateVideo() {
   const [tags, setTags] = useState([]);
 
+  const [error, setError] = useState("");
+
   const [currentTag, setCurrentTag] = useState("");
   const [file, setFile] = useState(null);
   const [fileName, setFileName] = useState("Video not selected");
@@ -36,6 +38,19 @@ export default function CreateVideo() {
   };
 
   const createVideo = async () => {
+    if (!file) {
+      setError("Please select a video");
+      return;
+    } else if (!title) {
+      setError("Please enter a title");
+      return;
+    } else if (!desc) {
+      setError("Please enter a description");
+      return;
+    }
+
+    console.log("Test");
+
     const formData = new FormData();
 
     formData.append("video", file);
@@ -47,11 +62,12 @@ export default function CreateVideo() {
       body: formData,
     });
 
-    if (res.status != 200) {
+    const data = await res.json();
+
+    if (data.error) {
+      setError(data.error);
       return;
     }
-
-    const data = await res.json();
 
     window.location.href = "/home";
   };
@@ -62,6 +78,12 @@ export default function CreateVideo() {
       <div className="w-screen h-screen flex items-center justify-center bg-gray-100">
         <div className="w-full max-w-[720px] min-h-1/2 p-10 rounded-lg drop-shadow-lg bg-gray-50 flex flex-col items-center gap-10">
           <h1 className="font-semibold text-lg">Create Video</h1>
+
+          {error && (
+            <div className="max-w-full w-1/2 bg-rose-400 rounded-md py-2 px-4 text-white text-center">
+              {error}
+            </div>
+          )}
           <div className="w-full h-full flex flex-col gap-4 items-center">
             <input
               type="text"

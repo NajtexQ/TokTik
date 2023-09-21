@@ -34,7 +34,7 @@ export default function Video(props) {
   };
 
   const getUrl = () => {
-    navigator.clipboard.writeText(URL + "video/" + props.videoId);
+    navigator.clipboard.writeText(URL + "/video?id=" + props.videoId);
   };
 
   useEffect(() => {
