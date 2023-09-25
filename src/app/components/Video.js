@@ -4,6 +4,7 @@ import Image from "next/image";
 
 import { HiShare } from "react-icons/hi";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
+import { VscReport } from "react-icons/vsc";
 import { BiSend } from "react-icons/bi";
 
 import { URL } from "../constants";
@@ -42,6 +43,18 @@ export default function Video(props) {
     setTimeout(() => {
       setCopied(false);
     }, 800);
+  };
+
+  const reportVideo = async () => {
+    const params = new URLSearchParams([["videoId", props.videoId]]);
+
+    const res = await axios.post("/api/report/create/", null, { params });
+
+    if (res.data.error) {
+      alert(res.data.error);
+    } else {
+      alert("Video has been reported!");
+    }
   };
 
   useEffect(() => {
@@ -106,9 +119,18 @@ export default function Video(props) {
       <div className="bg-white w-96 rounded-lg">
         <div className="flex flex-col items-center w-full h-full">
           {/* Header section */}
-          <div className="p-4 w-full rounded-t-lg">
-            <h1 className="font-bold">{props.title}</h1>
-            <h2 className="mt-2 text-sm">{props.description}</h2>
+          <div className="p-4 w-full rounded-t-lg flex justify-between items-center">
+            <div>
+              <h1 className="font-bold">{props.title}</h1>
+              <h2 className="mt-2 text-sm">{props.description}</h2>
+            </div>
+            <div
+              className="flex flex-col items-center cursor-pointer"
+              onClick={reportVideo}
+            >
+              <VscReport size={25} />
+              <h1 className="text-xs">Report</h1>
+            </div>
           </div>
 
           {/* Likes and comment section */}
