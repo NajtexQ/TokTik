@@ -20,6 +20,8 @@ export default function Video(props) {
 
   const [comment, setComment] = useState("");
 
+  const [copied, setCopied] = useState(false);
+
   const fetchComments = async () => {
     console.log("Fetching comments");
     try {
@@ -35,6 +37,11 @@ export default function Video(props) {
 
   const getUrl = () => {
     navigator.clipboard.writeText(URL + "/video?id=" + props.videoId);
+
+    setCopied(true);
+    setTimeout(() => {
+      setCopied(false);
+    }, 800);
   };
 
   useEffect(() => {
@@ -180,6 +187,15 @@ export default function Video(props) {
               </div>
             </div>
             <div className="cursor-pointer">
+              <div
+                className={
+                  copied
+                    ? "absolute bg-gray-800 text-white rounded-lg p-1 text-sm -translate-y-10 -translate-x-12"
+                    : "hidden"
+                }
+              >
+                Copied to clipboard
+              </div>
               <HiShare size={25} onClick={getUrl} />
             </div>
           </div>
