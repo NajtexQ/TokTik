@@ -6,16 +6,7 @@ import { useState } from "react";
 
 import { AiOutlineClose } from "react-icons/ai";
 
-import getCurrentUser from "../actions/getCurrentUser";
-
-import { redirect } from "next/navigation";
-
-export default async function CreateVideo() {
-  const user = await getCurrentUser();
-  if (!user) {
-    return redirect("/signin");
-  }
-
+export default function CreateVideo() {
   const [tags, setTags] = useState([]);
 
   const [error, setError] = useState("");

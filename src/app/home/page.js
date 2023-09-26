@@ -1,18 +1,17 @@
-"use client";
-
 import Nav from "../components/Nav";
 
 import ForYou from "./ForYou";
 
-import { redirect } from "next/navigation";
-
 import getCurrentUser from "../actions/getCurrentUser";
 
-export default async function Home() {
-  const user = await getCurrentUser();
+import { redirect } from "next/navigation";
+
+export default function Home() {
+  const user = getCurrentUser();
 
   if (!user) {
-    return redirect("/signin");
+    redirect("/signin");
+    return <div></div>;
   }
 
   return (

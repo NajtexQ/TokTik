@@ -6,6 +6,7 @@ import GoogleProvider from "next-auth/providers/google";
 import FacebookProvider from "next-auth/providers/facebook";
 
 import prisma from "../../prisma/client";
+import { redirect } from "next/navigation";
 
 export const authConfig = {
   adapter: PrismaAdapter(prisma),
@@ -23,6 +24,7 @@ export const authConfig = {
     async session({ session, user }) {
       session.user.id = user.id;
       session.user.username = user.username;
+
       return session;
     },
   },
