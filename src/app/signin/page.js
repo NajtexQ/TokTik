@@ -6,7 +6,16 @@ import AuthButton from "../components/AuthButton";
 
 import Nav from "../components/Nav";
 
+import getCurrentUser from "../actions/getCurrentUser";
+
+import { redirect } from "next/navigation";
+
 export default async function SignIn() {
+  const user = await getCurrentUser();
+  if (user) {
+    return redirect("/home");
+  }
+
   return (
     <div className="bg-gray-100">
       {/* <Nav /> */}

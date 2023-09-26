@@ -3,18 +3,22 @@ import { authConfig } from "@/lib/auth";
 
 import ProfilePage from "./ProfilePage";
 
+import { redirect } from "next/navigation";
+
 import getProfile from "@/app/actions/getProfile";
 
 export default async function page({ params }) {
   const session = await getServerSession(authConfig);
+
+  if (!session) {
+    return redirect("/signin");
+  }
 
   const username = params.username;
 
   console.log(username);
 
   const profile = await getProfile(username);
-
-  //console.log(profile);
 
   return (
     <>

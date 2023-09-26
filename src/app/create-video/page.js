@@ -6,7 +6,16 @@ import { useState } from "react";
 
 import { AiOutlineClose } from "react-icons/ai";
 
-export default function CreateVideo() {
+import getCurrentUser from "../actions/getCurrentUser";
+
+import { redirect } from "next/navigation";
+
+export default async function CreateVideo() {
+  const user = await getCurrentUser();
+  if (!user) {
+    return redirect("/signin");
+  }
+
   const [tags, setTags] = useState([]);
 
   const [error, setError] = useState("");
@@ -19,6 +28,10 @@ export default function CreateVideo() {
   const [desc, setDesc] = useState("");
 
   const addTag = () => {
+    if (tags.length >= 3) {
+      alert("You can only add 3 tags");
+      return;
+    }
     setTags([...tags, currentTag]);
     setCurrentTag("");
   };
