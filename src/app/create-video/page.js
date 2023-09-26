@@ -135,6 +135,7 @@ export default function CreateVideo() {
             <div className="max-w-max flex gap-2 mr-auto">
               {tags.map((tag) => (
                 <div
+                  key={tag}
                   className="flex bg-gray-200 rounded-lg py-2 pl-4 pr-2 justify-center items-center gap-2 hover:bg-gray-300 cursor-pointer"
                   onClick={() => removeTag(tag)}
                 >
