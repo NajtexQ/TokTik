@@ -46,7 +46,7 @@ export default function ProfilePage(props) {
           <div className="flex flex-col items-center gap-1">
             <h1 className="font-semibold text-xl">{props.name}</h1>
             <h1>@{props.username}</h1>
-            {props.isOwner &&
+            {!props.isOwner &&
               (!isFollowing ? (
                 <Button text="Follow" style="w-40 mt-4" func={follow} />
               ) : (

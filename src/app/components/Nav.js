@@ -13,7 +13,7 @@ import { URL } from "../constants";
 export default function Nav() {
   let Links = [
     { name: "For You", link: "/home" },
-    { name: "Profile", link: "/profile" },
+    { name: "Profile", link: "/profile/" },
   ];
   let [open, setOpen] = useState(false);
 
