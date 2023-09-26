@@ -107,7 +107,7 @@ export default function Video(props) {
     }
   };
   return (
-    <div className="flex">
+    <div className="flex absolute top-24 flex-col md:static md:flex-row">
       <div className="">
         {props.src != undefined ? (
           <video className="w-96 rounded-lg" controls>
