@@ -5,7 +5,7 @@ import Button from "../components/Button";
 import deleteVideo from "../actions/deleteVideo";
 import deleteReport from "../actions/reports/deleteReport";
 
-export default function AdminPage({ reports }) {
+export default async function AdminPage({ reports }) {
   const acceptReport = async (id) => {
     const res = await deleteVideo(id);
     console.log(res);

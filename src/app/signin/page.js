@@ -6,13 +6,16 @@ import AuthButton from "../components/AuthButton";
 
 import Nav from "../components/Nav";
 
-import getCurrentUser from "../actions/getCurrentUser";
-
 import { redirect } from "next/navigation";
 
+import { getServerSession } from "next-auth";
+
+import { authConfig } from "@/lib/auth";
+
 export default async function SignIn() {
-  const user = await getCurrentUser();
-  if (user) {
+  const session = await getServerSession(authConfig);
+
+  if (session) {
     return redirect("/home");
   }
 
