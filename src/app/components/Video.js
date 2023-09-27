@@ -3,7 +3,7 @@
 import Image from "next/image";
 
 import { HiShare } from "react-icons/hi";
-import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
+import { AiFillHeart, AiOutlineHeart, AiFillDelete } from "react-icons/ai";
 import { VscReport } from "react-icons/vsc";
 import { BiSend } from "react-icons/bi";
 
@@ -124,13 +124,23 @@ export default function Video(props) {
               <h1 className="font-bold">{props.title}</h1>
               <h2 className="mt-2 text-sm">{props.description}</h2>
             </div>
-            <div
-              className="flex flex-col items-center cursor-pointer"
-              onClick={reportVideo}
-            >
-              <VscReport size={25} />
-              <h1 className="text-xs">Report</h1>
-            </div>
+            {props.isOwner ? (
+              <div
+                className="flex flex-col items-center cursor-pointer"
+                onClick={props.deleteVideo}
+              >
+                <AiFillDelete size={25} />
+                <h1 className="text-xs">Delete</h1>
+              </div>
+            ) : (
+              <div
+                className="flex flex-col items-center cursor-pointer"
+                onClick={reportVideo}
+              >
+                <VscReport size={25} />
+                <h1 className="text-xs">Report</h1>
+              </div>
+            )}
           </div>
 
           {/* Likes and comment section */}

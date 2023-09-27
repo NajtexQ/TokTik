@@ -56,6 +56,7 @@ export async function GET(req) {
       likes,
       likedByUser: likedByUser != null ? true : false,
       author,
+      isOwner: session.user.id === videos[0].userId ? true : false,
     })
   );
 }

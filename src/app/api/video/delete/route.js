@@ -34,7 +34,7 @@ export async function POST(req) {
   });
 
   if (video.userId !== session.user.id && !user.isAdmin) {
-    console.log("Not authorized 1");
+    console.log("Not authorized");
     return new Response(JSON.stringify({ error: "Not authorized" }));
   }
 

@@ -35,6 +35,20 @@ export default function ForYou({ user }) {
     }
   };
 
+  const deleteVideo = async () => {
+    const res = await axios.post("/api/video/delete?videoId=" + video.id);
+
+    if (res.data.error) {
+      alert(res.data.error);
+    } else {
+      alert("Video has been deleted!");
+
+      getVideoCount();
+      setCurrentVideo(1);
+      getVideo();
+    }
+  };
+
   const getVideo = async () => {
     const params = new URLSearchParams([["value", currentVideo]]);
 
@@ -84,6 +98,8 @@ export default function ForYou({ user }) {
             likedByUser={video?.likedByUser}
             likes={video?.likes}
             comments={[]}
+            isOwner={video?.isOwner}
+            deleteVideo={deleteVideo}
           />
           <AiOutlineArrowRight
             size={45}

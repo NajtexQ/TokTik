@@ -47,6 +47,7 @@ export async function GET(req, { params }) {
         username: author.username,
         image: author.image,
       },
+      isOwner: session.user.id === video.userId ? true : false,
     })
   );
 }
