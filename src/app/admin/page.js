@@ -30,7 +30,7 @@ export default async function page() {
 
   return (
     <div>
-      <AdminPage reports={reports} />
+      <AdminPage allReports={reports} />
     </div>
   );
 }

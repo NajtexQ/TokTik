@@ -1,18 +1,28 @@
 "use client";
 
-import Button from "../components/Button";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
-import deleteVideo from "../actions/deleteVideo";
-import deleteReport from "../actions/reports/deleteReport";
+export default function AdminPage({ allReports }) {
+  console.log(allReports);
 
-export default async function AdminPage({ reports }) {
-  const acceptReport = async (id) => {
-    const res = await deleteVideo(id);
+  const [reports, setReports] = useState([]);
+
+  useEffect(() => {
+    setReports(allReports);
+  }, []);
+
+  const deleteReport = async (reportId) => {
+    setReports(reports.filter((report) => report.id !== reportId));
+
+    const res = await axios.post("/api/report/delete?reportId=" + reportId);
     console.log(res);
   };
 
-  const deleteReport = async (id) => {
-    const res = await deleteReport(id);
+  const acceptReport = async (reportId) => {
+    setReports(reports.filter((report) => report.id !== reportId));
+
+    const res = await axios.post("/api/report/accept?reportId=" + reportId);
     console.log(res);
   };
 
@@ -22,7 +32,7 @@ export default async function AdminPage({ reports }) {
       <div className="mt-8 w-full">
         <h1 className="font-semibold text-xl">Reports</h1>
         <div className="mt-4 w-full">
-          {reports.map((report) => (
+          {allReports.map((report) => (
             <div
               key={report.id}
               className="w-full bg-gray-200 rounded-lg p-4 flex flex-col"
@@ -44,10 +54,11 @@ export default async function AdminPage({ reports }) {
                   </div>
                 </div>
                 <div className="flex flex-col gap-2">
-                  <div type="submit" className="bg-green-300 rounded-lg p-3">
-                    Accept
-                  </div>
-                  <div type="submit" className="bg-red-300 rounded-lg p-3">
+                  <div className="bg-green-300 rounded-lg p-3">Accept</div>
+                  <div
+                    className="bg-red-300 rounded-lg p-3 cursor-pointer"
+                    onClick={() => deleteReport(report.id)}
+                  >
                     Delete
                   </div>
                 </div>
