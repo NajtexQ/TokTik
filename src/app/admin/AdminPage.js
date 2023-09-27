@@ -13,16 +13,24 @@ export default function AdminPage({ allReports }) {
   }, []);
 
   const deleteReport = async (reportId) => {
-    setReports(reports.filter((report) => report.id !== reportId));
+    setReports(
+      (reports) =>
+        (reports = reports.filter((report) => report.id !== reportId))
+    );
 
     const res = await axios.post("/api/report/delete?reportId=" + reportId);
     console.log(res);
   };
 
   const acceptReport = async (reportId) => {
-    setReports(reports.filter((report) => report.id !== reportId));
+    const videoId = reports.find((report) => report.id === reportId).video.id;
 
-    const res = await axios.post("/api/report/accept?reportId=" + reportId);
+    setReports(
+      (reports) =>
+        (reports = reports.filter((report) => report.id !== reportId))
+    );
+
+    const res = await axios.post("/api/video/delete?videoId=" + videoId);
     console.log(res);
   };
 
@@ -31,8 +39,8 @@ export default function AdminPage({ allReports }) {
       <h1 className="font-bold text-3xl">Admin Page</h1>
       <div className="mt-8 w-full">
         <h1 className="font-semibold text-xl">Reports</h1>
-        <div className="mt-4 w-full">
-          {allReports.map((report) => (
+        <div className="mt-4 w-full flex flex-col gap-4">
+          {reports.map((report) => (
             <div
               key={report.id}
               className="w-full bg-gray-200 rounded-lg p-4 flex flex-col"
@@ -54,12 +62,17 @@ export default function AdminPage({ allReports }) {
                   </div>
                 </div>
                 <div className="flex flex-col gap-2">
-                  <div className="bg-green-300 rounded-lg p-3">Accept</div>
+                  <div
+                    className="bg-green-300 rounded-lg p-3 cursor-pointer"
+                    onClick={() => acceptReport(report.id)}
+                  >
+                    Accept
+                  </div>
                   <div
                     className="bg-red-300 rounded-lg p-3 cursor-pointer"
                     onClick={() => deleteReport(report.id)}
                   >
-                    Delete
+                    Dismiss
                   </div>
                 </div>
               </div>

@@ -1,13 +1,23 @@
 import prisma from "@/lib/prisma";
-import { getServerSession } from "next-auth";
-import { authConfig } from "@/lib/auth";
 
 export default async function deleteVideo(id) {
-  const session = await getServerSession(authConfig);
+  await prisma.comment.deleteMany({
+    where: {
+      videoId: id,
+    },
+  });
 
-  if (!session) {
-    return new Response(JSON.stringify({ error: "Not authenticated" }));
-  }
+  await prisma.like.deleteMany({
+    where: {
+      videoId: id,
+    },
+  });
+
+  await prisma.report.deleteMany({
+    where: {
+      videoId: id,
+    },
+  });
 
   const video = await prisma.video.delete({
     where: {
