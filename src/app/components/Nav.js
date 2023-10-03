@@ -10,8 +10,6 @@ import { logOut } from "../functions";
 
 import { URL } from "../constants";
 
-console.log("URL", URL);
-
 export default function Nav() {
   let Links = [
     { name: "For You", link: "/home" },
@@ -45,7 +43,7 @@ export default function Nav() {
             <li key={link.name} className="md:ml-8 text-xl md:my-0 my-7">
               <button
                 onClick={() => {
-                  location.replace(URL + link.link);
+                  location.replace(link.link);
                 }}
                 className="text-gray-800 hover:text-gray-400 duration-500"
               >
@@ -57,7 +55,7 @@ export default function Nav() {
             <Button
               text="Create video"
               style="rounded md:rounded-full bg-indigo-500"
-              func={() => location.replace(URL + "/create-video")}
+              func={() => location.replace("/create-video")}
             />
             <Button
               text="Logout"
