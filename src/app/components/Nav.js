@@ -10,6 +10,8 @@ import { logOut } from "../functions";
 
 import { URL } from "../constants";
 
+console.log("URL", URL);
+
 export default function Nav() {
   let Links = [
     { name: "For You", link: "/home" },
