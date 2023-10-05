@@ -3,4 +3,13 @@ services:
     build:
       context: .
     ports:
-      - "80:3000"
+      - "3000:3000"
+  nginx:
+    image: nginx:1.15-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./docker/nginx:/etc/nginx/conf.d
+      - ./docker/ssl:/etc/letsenrypt
