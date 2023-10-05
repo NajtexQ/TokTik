@@ -12,4 +12,4 @@ services:
       - "443:443"
     volumes:
       - ./docker/nginx:/etc/nginx/conf.d
-      - ./docker/ssl:/etc/letsenrypt
+      - ./docker/ssl:/etc/nginx/ssl
