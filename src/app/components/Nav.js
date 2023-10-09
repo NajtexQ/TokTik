@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import Button from "./Button";
 import { FaBeer } from "react-icons/fa";
 import { FiMenu } from "react-icons/fi";
-import { AiOutlineClose } from "react-icons/ai";
+import { AiOutlineClose, AiOutlineSearch } from "react-icons/ai";
 
 import { logOut } from "../functions";
 
@@ -15,7 +15,13 @@ export default function Nav() {
     { name: "For You", link: "/home" },
     { name: "Profile", link: "/profile/" },
   ];
-  let [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false);
+
+  const [search, setSearch] = useState("");
+
+  const searchTags = () => {
+    location.replace(`/search?name=${search}`);
+  };
 
   return (
     <div className="shadow-md w-full absolute md:fixed top-0 left-0 z-999">
@@ -52,6 +58,16 @@ export default function Nav() {
             </li>
           ))}
           <div className="flex gap-4 md:gap-2 md:ml-6">
+            <div className="flex justify-center items-center gap-2 cursor-pointer">
+              <input
+                className="rounded-full border border-gray-300 py-2 px-4 w-36 md:w-72"
+                placeholder="Search for tags"
+                onChange={(e) => setSearch(e.target.value)}
+                value={search}
+              />
+              <AiOutlineSearch size={25} onClick={searchTags} />
+            </div>
+
             <Button
               text="Create video"
               style="rounded md:rounded-full bg-indigo-500"

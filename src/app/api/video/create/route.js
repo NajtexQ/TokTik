@@ -23,6 +23,7 @@ export async function POST(req, res) {
     const file = formData.get("video");
     const title = formData.get("title");
     const desc = formData.get("desc");
+    const tags = JSON.parse(formData.get("tags"));
 
     if (!file) {
       return new Response(JSON.stringify({ error: "No file" }));
@@ -56,6 +57,17 @@ export async function POST(req, res) {
     console.log(data);
 
     const video = await prisma.video.create(data);
+
+    const tagsData = tags.map((tag) => {
+      return {
+        name: tag,
+        videoId: video.id,
+      };
+    });
+
+    const tagsResponse = await prisma.tag.createMany({
+      data: tagsData,
+    });
 
     return new Response(JSON.stringify(video));
   } catch (e) {

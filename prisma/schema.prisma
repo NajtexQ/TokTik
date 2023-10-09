@@ -78,6 +78,16 @@ model Video {
   likes     Like[]
   comments  Comment[]
   reports   Report[]
+  tags      Tag[]
+}
+
+model Tag {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  videos    Video    @relation(fields: [videoId], references: [id])
+  videoId   String
 }
 
 model Like {

@@ -111,7 +111,10 @@ export default function Video(props) {
       <div className="">
         {props.src != undefined ? (
           <video className="w-96 rounded-lg" controls>
-            <source src={URL + props.src} type="video/mp4" />
+            <source
+              src={URL + "/api/videofile/get?videoId=" + props.src}
+              type="video/mp4"
+            />
             Your browser does not support HTML video.
           </video>
         ) : null}

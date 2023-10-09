@@ -60,6 +60,7 @@ export default function CreateVideo() {
     formData.append("video", file);
     formData.append("title", title);
     formData.append("desc", desc);
+    formData.append("tags", JSON.stringify(tags));
 
     const res = await fetch("/api/video/create", {
       method: "POST",
