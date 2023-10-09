@@ -8,7 +8,9 @@ export async function videoUpload(videoFile, folderName, fileName) {
 
   console.log(videoFile);
 
-  const filePath = path.join(process.cwd(), "public", folderName, fileName);
+  const filePath = path.join(process.cwd(), "src/app", folderName, fileName);
+
+  console.log(filePath);
 
   const fileArrayBuffer = await videoFile.arrayBuffer();
 

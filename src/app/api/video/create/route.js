@@ -7,7 +7,7 @@ import { v4 as uuidv4 } from "uuid";
 
 import { videoUpload } from "@/app/serverFunctions/videoUpload";
 
-export async function POST(req) {
+export async function POST(req, res) {
   const session = await getServerSession(authConfig);
 
   if (!session) {
@@ -48,7 +48,7 @@ export async function POST(req) {
       data: {
         title,
         desc,
-        url: videoUploadResponse.url,
+        url: fileName,
         userId: session.user.id,
       },
     };
