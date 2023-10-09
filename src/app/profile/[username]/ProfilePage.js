@@ -72,7 +72,7 @@ export default function ProfilePage(props) {
             <div className="w-96 grid grid-cols-3 gap-2 p-4 max-h-[100px] h-full overflow-y-auto">
               {props.videos.map((video) => (
                 <div
-                  className="h-full rounded-lg drop-shadow-lg bg-gray-50 flex flex-col items-center justify-center gap-8"
+                  className="h-full rounded-lg drop-shadow-lg bg-gray-50 flex flex-col items-center justify-center gap-8 cursor-pointer"
                   onClick={() => videoClick(video.id)}
                   key={video.id}
                 >

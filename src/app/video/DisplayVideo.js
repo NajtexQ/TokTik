@@ -43,6 +43,7 @@ export default function DisplayVideo() {
         likedByUser={video?.likedByUser}
         likes={video?.likes}
         comments={[]}
+        isOwner={video?.isOwner}
       />
     </div>
   );

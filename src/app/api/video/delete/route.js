@@ -38,6 +38,24 @@ export async function POST(req) {
     return new Response(JSON.stringify({ error: "Not authorized" }));
   }
 
+  await prisma.like.deleteMany({
+    where: {
+      videoId: videoId,
+    },
+  });
+
+  await prisma.comment.deleteMany({
+    where: {
+      videoId: videoId,
+    },
+  });
+
+  await prisma.tag.deleteMany({
+    where: {
+      videoId: videoId,
+    },
+  });
+
   console.log("Deleting video");
 
   await deleteVideo(videoId);

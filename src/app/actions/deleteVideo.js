@@ -19,6 +19,12 @@ export default async function deleteVideo(id) {
     },
   });
 
+  await prisma.tag.deleteMany({
+    where: {
+      videoId: id,
+    },
+  });
+
   const video = await prisma.video.delete({
     where: {
       id,
