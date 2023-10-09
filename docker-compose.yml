@@ -7,9 +7,9 @@ services:
   nginx:
     image: nginx:1.15-alpine
     restart: unless-stopped
+    volumes:
+      - ./docker/nginx:/etc/nginx/conf.d
+      - ./docker/ssl:/etc/letsencrypt
     ports:
       - "80:80"
       - "443:443"
-    volumes:
-      - ./docker/nginx:/etc/nginx/conf.d
-      - ./docker/ssl:/etc/nginx/ssl
