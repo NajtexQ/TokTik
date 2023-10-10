@@ -8,7 +8,7 @@ export async function videoUpload(videoFile, folderName, fileName) {
 
   console.log(videoFile);
 
-  const filePath = path.join(process.cwd(), "src/app", folderName, fileName);
+  const filePath = path.join(process.cwd(), folderName, fileName);
 
   console.log(filePath);
 

@@ -61,4 +61,7 @@ ENV HOSTNAME "0.0.0.0"
 
 USER root
 
+RUN mkdir /app/uploads
+RUN mkdir /app/uploads/videos
+
 CMD ["node", "server.js"]

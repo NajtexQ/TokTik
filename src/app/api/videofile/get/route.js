@@ -2,11 +2,11 @@ import { readFileSync } from "fs";
 import path from "path";
 
 export function GET(req, res) {
-  const defPath = path.join(process.cwd(), "src", "app", "uploads", "videos");
+  const defPath = path.join(process.cwd(), "uploads", "videos");
   const q = new URL(req.url);
 
   const videoId = q.searchParams.get("videoId");
-  const file = `${defPath}\\${videoId}`;
+  const file = `${defPath}/${videoId}`;
   const videoBuf = readFileSync(file);
   console.log(file);
   try {
