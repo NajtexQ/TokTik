@@ -6,7 +6,7 @@ export function GET(req, res) {
   const q = new URL(req.url);
 
   const videoId = q.searchParams.get("videoId");
-  const file = `${defPath}/${videoId}`;
+  const file = path.join(defPath, videoId);
   const videoBuf = readFileSync(file);
   console.log(file);
   try {
